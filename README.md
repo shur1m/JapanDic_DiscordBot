@@ -1,3 +1,3 @@
-### About the Bot
+# About the Bot
 
 WIP
