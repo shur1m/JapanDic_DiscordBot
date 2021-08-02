@@ -6,15 +6,15 @@ const disbut = require('discord-buttons');
 disbut(client);
 
 const { token } = require('./config.json');
+const parse = require('./parse.js');
+const dictionaries = require('./dictionaryFiles/dictionaries.js');
 
 //initializing bot
 client.on('ready', async () => {
     console.log('the client is ready');
 
-    client.user.setActivity('Invite me on top.gg', {
-        type: 'PLAYING',
-        url: ""
-    });
+    //parse and store dictionaries
+    Object.assign(dictionaries, parse());
     
     const baseFile = 'command-base.js';
     const commandBase = require(`./commands/${baseFile}`);
@@ -36,6 +36,7 @@ client.on('ready', async () => {
         }
     };
 
+    //registering commands and buttons
     readCommands('commands', commandBase, baseFile);
     readCommands('buttons', buttonBase, basefile1);
 });
