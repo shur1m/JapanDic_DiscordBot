@@ -74,7 +74,7 @@ module.exports = (client, commandOptions) => {
   }
 
   // Listen for messages
-  client.on('message', (message) => {
+  client.on('messageCreate', (message) => {
 
     const { member, content, guild } = message
 
@@ -99,8 +99,9 @@ module.exports = (client, commandOptions) => {
         }
 
         // Ensure the user has the required permissions
+        
         for (const permission of permissions) {
-          if (!member.hasPermission(permission)) {
+          if (!member.permissions.toArray().includes(permission)) {
             message.reply(permissionError)
             return
           }

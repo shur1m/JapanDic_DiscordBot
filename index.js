@@ -1,9 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const Discord = require('discord.js');
-const client = new Discord.Client();
-const disbut = require('discord-buttons');
-disbut(client);
+const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 
 const { token } = require('./config.json');
 const parse = require('./parse.js');
@@ -18,9 +16,6 @@ client.on('ready', async () => {
     
     const baseFile = 'command-base.js';
     const commandBase = require(`./commands/${baseFile}`);
-
-    const basefile1 = 'button-base.js';
-    const buttonBase = require(`./buttons/${basefile1}`);
 
     //reading files from commands folder
     const readCommands = (dir, register, dontRegister) => {
@@ -38,7 +33,6 @@ client.on('ready', async () => {
 
     //registering commands and buttons
     readCommands('commands', commandBase, baseFile);
-    readCommands('buttons', buttonBase, basefile1);
 });
 
 client.login(token);
