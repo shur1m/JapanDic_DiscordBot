@@ -6,6 +6,9 @@ const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 const { token } = require('./config.json');
 const parse = require('./parse.js');
 const dictionaries = require('./dictionaryFiles/dictionaries.js');
+const regSlash = require('./internal/regSlash');
+const slashResponse = require('./internal/slashResponse');
+const buttonResponse = require('./internal/buttonResponse');
 
 //initializing bot
 client.on('ready', async () => {
@@ -13,26 +16,11 @@ client.on('ready', async () => {
 
     //parse and store dictionaries
     Object.assign(dictionaries, parse());
-    
-    const baseFile = 'command-base.js';
-    const commandBase = require(`./commands/${baseFile}`);
-
-    //reading files from commands folder
-    const readCommands = (dir, register, dontRegister) => {
-        const files = fs.readdirSync(path.join(__dirname, dir));
-        for (const file of files){
-            const stat = fs.lstatSync(path.join(__dirname, dir, file))
-            if (stat.isDirectory()) {
-                readCommands(path.join(dir, file), register);
-            } else if (file !== dontRegister){
-                const option = require(path.join(__dirname, dir, file))
-                register(client, option);
-            }
-        }
-    };
 
     //registering commands and buttons
-    readCommands('commands', commandBase, baseFile);
+    regSlash(client);
+    slashResponse(client);
+    buttonResponse(client);
 });
 
 client.login(token);
