@@ -42,13 +42,6 @@ module.exports = async (client) => {
                 },
             ],
         },
-        
-        //ping 
-        {
-            name: 'ping',
-            description: 'Replies with Pong!',
-        },
-
         {
             name: 'searchall',
             description: 'Searches all dictionaries for word',

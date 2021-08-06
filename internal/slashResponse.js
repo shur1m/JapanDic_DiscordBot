@@ -10,10 +10,6 @@ module.exports = (client) => {
             case 'search':
                 searchDic(interaction);
                 break;
-
-            case 'ping':
-                ping(interaction);
-                break;
             
             case 'searchall':
                 searchDic(interaction, true)
@@ -25,7 +21,7 @@ module.exports = (client) => {
     console.log('slash commands registered');
 }
 
-async function ping(interaction){
+/*async function ping(interaction){
     const row = new MessageActionRow()
 		.addComponents(
 			new MessageButton()
@@ -41,4 +37,4 @@ async function ping(interaction){
         .setDescription('Some description here');
 
 	await interaction.reply({ content: 'Pong!', embeds: [embed], components: [row] });
-}
+}*/
