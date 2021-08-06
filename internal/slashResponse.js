@@ -8,7 +8,7 @@ module.exports = (client) => {
         switch (interaction.commandName) {
 
             case 'search':
-                searchDic(interaction);
+                searchDic(interaction, false);
                 break;
             
             case 'searchall':

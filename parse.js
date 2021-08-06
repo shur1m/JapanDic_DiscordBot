@@ -32,6 +32,7 @@ module.exports = () => {
         readTerms('dictionaryFiles')
     } catch (err) {
         console.error('Error: Could not finish parsing dictionaryFiles');
+        console.log(err);
     }
 
     return dictionaries

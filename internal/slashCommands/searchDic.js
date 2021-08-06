@@ -11,7 +11,7 @@ const getDirectories = source =>
         .filter(dirent => dirent.isDirectory())
         .map(dirent => dirent.name)
 
-module.exports = async (interaction, searchAll = false) => {
+module.exports = async (interaction, searchAll) => {
     await interaction.defer();
 
     let definitions = [];
@@ -21,7 +21,7 @@ module.exports = async (interaction, searchAll = false) => {
     let words = [];
 
     if (searchAll == false){
-        interaction.options.data[1].value;
+        searchTerm = interaction.options.data[1].value;
         words = dictionaries[interaction.options.data[0].value]
         
     } else {
@@ -46,6 +46,8 @@ module.exports = async (interaction, searchAll = false) => {
             }
         }
     }
+
+    //add begins with in above loop
 
     if (definitions.length == 0){
         await interaction.editReply({content: '*Error: This term could not be found in the dictionary. Please check if you made any typos.*', ephemeral: true});
