@@ -6,7 +6,7 @@ module.exports = async (client, interaction, flipRight) => {
     //await interaction.deferUpdate();
 
     if (interaction.message.japanDic === undefined){
-        interaction.followUp({content: 'This message has timed out. Please use the search command again', ephemeral: true});
+        interaction.reply({content: 'This message has timed out. Please use the search command again', ephemeral: true});
         return;
     }
 

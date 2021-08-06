@@ -1,3 +1,22 @@
+const path = require('path');
+const { readdirSync } = require('fs');
+
+//registering dictionary options
+const getDirectories = source =>
+  readdirSync(source, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name)
+
+let dictionaryNames = getDirectories(path.resolve(__dirname, '../', 'dictionaryFiles'))
+let dictionaryOptions = [];
+
+for (dictionaryName of dictionaryNames){
+    dictionaryOptions.push({
+        name: dictionaryName,
+        value: dictionaryName,
+    })
+}
+
 module.exports = async (client) => {
 
     const data = [
@@ -12,16 +31,7 @@ module.exports = async (client) => {
                     type: 'STRING',
                     description: 'selected dictionary',
                     required: true,
-                    choices: [
-                        {
-                            name: 'daijisen',
-                            value: 'daijisen',
-                        },
-                        {
-                            name: 'jmdict',
-                            value: 'jmdict',
-                        },
-                    ],
+                    choices: dictionaryOptions,
                 },
 
                 {
@@ -37,6 +47,17 @@ module.exports = async (client) => {
         {
             name: 'ping',
             description: 'Replies with Pong!',
+        },
+
+        {
+            name: 'searchAll',
+            description: 'Searches all dictionaries for word',
+            options: [{
+                name: 'word',
+                type: 'STRING',
+                description: 'word you would like to look up',
+                required: true,
+            }]
         },
     ];
 

@@ -6,12 +6,17 @@ module.exports = (client) => {
         if (!interaction.isCommand()) return;
     
         switch (interaction.commandName) {
+
+            case 'search':
+                searchDic(interaction);
+                break;
+
             case 'ping':
                 ping(interaction);
                 break;
             
-            case 'search':
-                searchDic(interaction);
+            case 'searchAll':
+                interaction.reply('/search dictionary:daijisen word:kakeru');
                 break;
         }
 

@@ -9,6 +9,7 @@ module.exports = async (interaction) => {
     let definitions = [];
     let parsedDefinitions = [''];
     let words = dictionaries[interaction.options.data[0].value]
+    let dictionaryName = interaction.options.data[0].value;
     let searchTerm = interaction.options.data[1].value;
     
     if (wanakana.isRomaji(searchTerm)){
@@ -25,7 +26,15 @@ module.exports = async (interaction) => {
     }
 
     if (definitions.length == 0){
-        await interaction.reply({content: '*Error: This term could not be found in the dictionary. Please check if you made any typos.*', ephemeral: true});
+        await interaction.editReply({content: '*Error: This term could not be found in the dictionary. Please check if you made any typos.*', ephemeral: true});
+        
+        interaction.fetchReply()
+            .then(reply => {
+                setTimeout(() => {
+                    reply.delete()
+                }, 2000)
+            })
+            .catch(console.error);
         return;
     }
 
@@ -36,13 +45,23 @@ module.exports = async (interaction) => {
     let numbers = 1;
 
     for(definition of definitions){
+        console.log(definition[5]);
 
         if (definition[0] == entryNames[i][0] && definition[1] == entryNames[i][1]){
-            parsedDefinitions[i] = parsedDefinitions[i] + `**${numbers++}.** ` + definition[5].join(', ') + '\n';
+            if (dictionaryName == 'jmdict')
+                parsedDefinitions[i] = parsedDefinitions[i] + `**${numbers++}.** `
+
+            parsedDefinitions[i] = parsedDefinitions[i] + definition[5].join(', ') + '\n';
+            
         } else {
             numbers = 1;
             i += 1;
-            parsedDefinitions[i] =`**${numbers++}.** ` + definition[5].join(', ') + '\n'
+
+            parsedDefinitions[i] = definition[5].join(', ') + '\n'
+
+            if (dictionaryName == 'jmdict')
+                parsedDefinitions[i] =`**${numbers++}.** ` + parsedDefinitions[i]
+
             entryNames[i] = [definition[0], definition[1]]
         }
     }
@@ -52,7 +71,7 @@ module.exports = async (interaction) => {
         .setColor(settings.embedColor)
         .setTitle(`${definitions[0][0]} (${definitions[0][1]})`)
         .setDescription(parsedDefinitions[0]) //first definition
-        .setFooter(`Dictionary: ${interaction.options.data[0].value}. Page 1 of ${entryNames.length}`);
+        .setFooter(`Dictionary: ${dictionaryName}. Page 1 of ${entryNames.length}`);
     
     //creating buttons
     let nextDisabled = entryNames.length == 1
@@ -78,7 +97,7 @@ module.exports = async (interaction) => {
         index: 0,
         definitions: parsedDefinitions,
         entry: entryNames,
-        dictionary: interaction.options.data[0].value,
+        dictionary: dictionaryName,
     }
 
     console.log(message.japanDic);
