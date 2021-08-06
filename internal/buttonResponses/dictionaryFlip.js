@@ -2,8 +2,7 @@ const { MessageActionRow, MessageButton, MessageEmbed} = require('discord.js');
 const settings = require('../settings.json');
 
 module.exports = async (client, interaction, flipRight) => {
-    
-    console.log(interaction.message)
+
     //await interaction.deferUpdate();
 
     if (interaction.message.japanDic === undefined){
