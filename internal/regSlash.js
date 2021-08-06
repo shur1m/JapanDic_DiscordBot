@@ -50,7 +50,7 @@ module.exports = async (client) => {
         },
 
         {
-            name: 'searchAll',
+            name: 'searchall',
             description: 'Searches all dictionaries for word',
             options: [{
                 name: 'word',

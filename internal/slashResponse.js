@@ -15,8 +15,8 @@ module.exports = (client) => {
                 ping(interaction);
                 break;
             
-            case 'searchAll':
-                interaction.reply('/search dictionary:daijisen word:kakeru');
+            case 'searchall':
+                searchDic(interaction, true)
                 break;
         }
 

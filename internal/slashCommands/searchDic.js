@@ -3,15 +3,37 @@ const { MessageActionRow, MessageButton, MessageEmbed} = require('discord.js');
 const settings = require('../settings.json');
 const wanakana = require('wanakana');
 
-module.exports = async (interaction) => {
+const path = require ('path');
+const { readdirSync } = require('fs');
+
+const getDirectories = source =>
+    readdirSync(source, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name)
+
+module.exports = async (interaction, searchAll = false) => {
     await interaction.defer();
 
     let definitions = [];
     let parsedDefinitions = [''];
-    let words = dictionaries[interaction.options.data[0].value]
     let dictionaryName = interaction.options.data[0].value;
-    let searchTerm = interaction.options.data[1].value;
-    
+    let searchTerm;
+    let words = [];
+
+    if (searchAll == false){
+        interaction.options.data[1].value;
+        words = dictionaries[interaction.options.data[0].value]
+        
+    } else {
+        dictionaryName = 'All available dictionaries'
+        searchTerm = interaction.options.data[0].value;
+
+        const dictionaryNames = getDirectories(path.resolve(__dirname, '../../','dictionaryFiles'))
+        for (element of dictionaryNames) {
+            words = [...words, ...dictionaries[element]];
+        }
+    }
+
     if (wanakana.isRomaji(searchTerm)){
         searchTerm = wanakana.toKana(searchTerm);
     }
