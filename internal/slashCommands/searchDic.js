@@ -1,6 +1,7 @@
 const dictionaries = require('../../dictionaryFiles/dictionaries');
 const { MessageActionRow, MessageButton, MessageEmbed} = require('discord.js');
 const settings = require('../settings.json');
+const wanakana = require('wanakana');
 
 module.exports = async (interaction) => {
     await interaction.defer();
@@ -10,6 +11,10 @@ module.exports = async (interaction) => {
     let words = dictionaries[interaction.options.data[0].value]
     let searchTerm = interaction.options.data[1].value;
     
+    if (wanakana.isRomaji(searchTerm)){
+        searchTerm = wanakana.toKana(searchTerm);
+    }
+
     //searching for word
     if (words !== undefined){
         for (word of words){
