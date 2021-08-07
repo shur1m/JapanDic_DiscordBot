@@ -19,7 +19,7 @@ module.exports = async (client, interaction, flipRight) => {
 
     const embed = new MessageEmbed()
         .setColor(settings.embedColor)
-        .setTitle(`${entry[index][0]} (${entry[index][1]})`)
+        .setTitle(`${entry[index][0]} ${entry[index][1] == "" ? "" : `(${entry[index][1]})`}`)
         .setDescription(definitions[index])
         .setFooter(`Dictionary: ${dictionary}. Page ${index+1} of ${definitions.length}`);
 

@@ -90,10 +90,17 @@ module.exports = async (interaction, searchAll) => {
         }
     }
 
+    //ensure embed discription shorter than 4000
+    for (let j = 0; j < parsedDefinitions.length; j++){
+        if (parsedDefinitions[j].length > 4000) {
+            parsedDefinitions[j] = parsedDefinitions[j].substring(0, 4000) + "...";
+        }
+    }
+
     //creating embed
     const embed = new MessageEmbed()
         .setColor(settings.embedColor)
-        .setTitle(`${definitions[0][0]} (${definitions[0][1]})`)
+        .setTitle(`${definitions[0][0]} ${definitions[0][1] == "" ? "" : `(${definitions[0][1]})`}`)
         .setDescription(parsedDefinitions[0]) //first definition
         .setFooter(`Dictionary: ${dictionaryName}. Page 1 of ${entryNames.length}`);
     
