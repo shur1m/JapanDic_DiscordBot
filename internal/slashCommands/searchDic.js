@@ -39,13 +39,20 @@ module.exports = async (interaction, searchAll) => {
     }
 
     //searching for word
+    let incompleteMatches = []
+
     if (words !== undefined){
         for (word of words){
             if (word[0] == searchTerm || word[1] == searchTerm){
                 definitions.push(word)
             }
+
+            if (word[0].startsWith(searchTerm) || word[1].startsWith(searchTerm)){
+                incompleteMatches.push(word)
+            }
         }
     }
+    definitions = [...definitions, ...incompleteMatches]
 
     //add begins with in above loop
 
@@ -69,7 +76,7 @@ module.exports = async (interaction, searchAll) => {
     let numbers = 1;
 
     for(definition of definitions){
-        console.log(definition[5]);
+        //console.log(definition[5]);
 
         if (definition[0] == entryNames[i][0] && definition[1] == entryNames[i][1]){
             if (dictionaryName == 'jmdict')
@@ -131,5 +138,5 @@ module.exports = async (interaction, searchAll) => {
         dictionary: dictionaryName,
     }
 
-    console.log(message.japanDic);
+    //console.log(message.japanDic);
 }
